@@ -1,5 +1,16 @@
 <?php
-require 'env.php';
+if(preg_match('#^/list/?$#', $_SERVER['REQUEST_URI'])){
+  $download = false;
+  require(__DIR__.'/list.php');
+  exit;
+} elseif(preg_match('#^/download/?$#', $_SERVER['REQUEST_URI'])){
+  $download = true;
+  require(__DIR__.'/list.php');
+  exit;
+}
+
+
+require(__DIR__.'/env.php');
 $appCss = (defined('DEBUG') && DEBUG) ?
   'http://localhost:8080/app.css' :
   '/static/app.css';
