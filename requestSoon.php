@@ -19,7 +19,7 @@ $register = $register=='' ? null : (int)(bool)$register;
 $needRide = $needRide=='' ? null : (int)(bool)$needRide;
 $canRide  = $canRide==''  ? null : (int)(bool)$canRide;
 
-$query = "INSERT INTO `soon_registration` SET `requested_date`='{$date}', `name`='{$name}', `age`='{$age}', `gender`='{$gender}', `register`={$register}, `need_ride`={$needRide}";
+$query = "INSERT INTO `soon_registration` SET `requested_date`='{$date}', `name`='{$name}', `age`='{$age}', `gender`='{$gender}', `register`={$register}, `address`='{$address}', `need_ride`={$needRide}";
 if(!is_null($canRide)){
   $query .= ", `can_ride`={$canRide}";
 }
