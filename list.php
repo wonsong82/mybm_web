@@ -17,9 +17,10 @@ if(isset($_POST['id'])){
     $age      = escape($_POST['age'][$i]);
     $gender   = escape($_POST['gender'][$i]);
     $address  = escape($_POST['address'][$i]);
+    $participation = escape($_POST['participation'][$i]);
 
 
-    $query = "UPDATE `soon_registration` SET `name`='{$name}', `age`='{$age}', `gender`='{$gender}', `address`='{$address}' WHERE `id`={$id} ";
+    $query = "UPDATE `soon_registration` SET `name`='{$name}', `age`='{$age}', `gender`='{$gender}', `address`='{$address}', `participation`='{$participation}' WHERE `id`={$id} ";
 
     $sql->query($query);
   }
@@ -47,6 +48,7 @@ while($row = $result->fetch_assoc()){
   $e->address = $row['address'];
   $e->register = (bool)$row['register'] ? '예' : '아니요';
   $e->needride = (bool)$row['need_ride'] ? '예' : '아니요';
+  $e->participation = $row['participation'];
   if(is_null($row['can_ride'])){
     $e->canride = '';
   } else {
@@ -65,6 +67,20 @@ if(!$download) : ?>
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>브릿지메이커스: 신청현황</title>
+  <style>
+    button {
+      cursor: pointer;
+      padding: 10px 20px;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      font-size: 14px;
+      border: none;
+      outline: none;
+    }
+  </style>
 </head>
 
 <body>
@@ -74,14 +90,16 @@ if(!$download) : ?>
   <table width="100%" cellpadding="5" border="1" cellspacing="0">
     <thead>
       <tr>
-        <th align="left" valign="top">신청일자</th>
-        <th align="left" valign="top">이름</th>
-        <th align="left" valign="top">나이</th>
-        <th align="left" valign="top">성별
-        <th align="left" valign="top">사는곳</th>
-        <th align="left" valign="top">순신청</th>
-        <th align="left" valign="top">라이드필요</th>
-        <th align="left" valign="top">라이드가능</th>
+        <th width="10%" align="left" valign="top">UID</th>
+        <th width="10%" align="left" valign="top">신청일자</th>
+        <th width="10%" align="left" valign="top">이름</th>
+        <th width="10%" align="left" valign="top">나이</th>
+        <th width="10%" align="left" valign="top">성별
+        <th width="10%" align="left" valign="top">사는곳</th>
+        <th width="10%" align="left" valign="top">순신청</th>
+        <th width="10%" align="left" valign="top">라이드필요</th>
+        <th width="10%" align="left" valign="top">라이드가능</th>
+        <th width="10%" align="left" valign="top">참여도</th>
       </tr>
     </thead>
 
@@ -89,6 +107,7 @@ if(!$download) : ?>
       <?php $i=0;foreach($data as $row):?>
       <tr>
         <input type="hidden" name="id[<?=$i?>]" value="<?=$row->id?>" />
+        <td><?=$row->id?></td>
         <td><input type="text" name="date[<?=$i?>]" value="<?=$row->date?>" /></td>
         <td><input type="text" name="name[<?=$i?>]" value="<?=$row->name?>" /></td>
         <td><input type="text" name="age[<?=$i?>]" value="<?=$row->age?>" /></td>
@@ -97,6 +116,7 @@ if(!$download) : ?>
         <td><input type="text" name="register[<?=$i?>]" value="<?=$row->register?>" /></td>
         <td><input type="text" name="needride[<?=$i?>]" value="<?=$row->needride?>" /></td>
         <td><input type="text" name="canride[<?=$i?>]" value="<?=$row->canride?>" /></td>
+        <td><input type="text" name="participation[<?=$i?>]" value="<?=$row->participation?>" /></td>
       </tr>
       <?php $i++;endforeach;?>
     </tbody>
@@ -106,20 +126,7 @@ if(!$download) : ?>
 
 <div>총 <?=count($data)?>명</div>
 
-<style>
-  button {
-    cursor: pointer;
-    padding: 10px 20px;
-    font-size: 18px;
-    margin-bottom: 20px;
-  }
-  input {
-    width: 100%;
-    font-size: 14px;
-    border: none;
-    outline: none;
-  }
-</style>
+
 
 </body>
 
@@ -149,9 +156,9 @@ if(!$download) : ?>
   header('Content-Disposition: attachment; filename="'.basename($export_file).'"');
 
   echo chr(255) . chr(254);
-  echo mb_convert_encoding("신청일자\t이름\t나이\t성별\t순신청\t라이드필요\t라이드가능\n", 'UTF-16LE', 'UTF-8');
+  echo mb_convert_encoding("신청일자\t이름\t나이\t성별\t순신청\t라이드필요\t라이드가능\t참여도\n", 'UTF-16LE', 'UTF-8');
   foreach($data as $row){
-    echo mb_convert_encoding("{$row->date}\t{$row->name}\t{$row->age}\t{$row->gender}\t{$row->register}\t{$row->needride}\t{$row->canride}\n", 'UTF-16LE', 'UTF-8');
+    echo mb_convert_encoding("{$row->date}\t{$row->name}\t{$row->age}\t{$row->gender}\t{$row->register}\t{$row->needride}\t{$row->canride}\t{$row->participation}\n", 'UTF-16LE', 'UTF-8');
   }
 
 

@@ -7,7 +7,11 @@ if(preg_match('#^/list/?$#', $_SERVER['REQUEST_URI'])){
   $download = true;
   require(__DIR__.'/list.php');
   exit;
+} elseif(preg_match('#^/random/?$#', $_SERVER['REQUEST_URI'])){
+  require(__DIR__.'/random.php');
+  exit;
 }
+
 
 
 require(__DIR__.'/env.php');
