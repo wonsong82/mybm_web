@@ -11,15 +11,16 @@ $date     = date('Y-m-d H:i:s');
 $name     = escape($_POST['name']);
 $age      = escape($_POST['age']);
 $gender   = escape($_POST['gender']);
-$address  = escape($_POST['address']);
-$register = escape($_POST['register']);
+$phone    = escape($_POST{'phone'});
+$size     = escape($_POST['size']);
 $needRide = escape($_POST['needRide']);
 $canRide  = escape($_POST['canRide']);
-$register = $register=='' ? null : (int)(bool)$register;
 $needRide = $needRide=='' ? null : (int)(bool)$needRide;
 $canRide  = $canRide==''  ? null : (int)(bool)$canRide;
 
-$query = "INSERT INTO `soon_registration` SET `requested_date`='{$date}', `name`='{$name}', `age`='{$age}', `gender`='{$gender}', `register`={$register}, `address`='{$address}', `need_ride`={$needRide}";
+//var_dump($date, $name, $age, $gender, $phone, $size, $needRide, $canRide);
+
+$query = "INSERT INTO `retreat16winter_registration` SET `requested_date`='{$date}', `name`='{$name}', `age`='{$age}', `gender`='{$gender}', `phone`='{$phone}', `size`='{$size}', `need_ride`={$needRide}";
 if(!is_null($canRide)){
   $query .= ", `can_ride`={$canRide}";
 }

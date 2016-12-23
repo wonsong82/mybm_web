@@ -1,5 +1,6 @@
 <?php
 $sql = new MySqli('localhost', 'admin', '777');
+//$sql = new MySqli('mybm.io', 'admin', '777');
 if($sql->connect_error){
   die('Connection failed: ' . $sql->connect_error);
 }

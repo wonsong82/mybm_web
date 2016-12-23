@@ -1,7 +1,8 @@
 <?php
 set_time_limit(0);
 
-$sql = new MySqli('localhost', 'admin', '777');
+//$sql = new MySqli('localhost', 'admin', '777');
+$sql = new MySqli('mybm.io', 'admin', '777');
 if($sql->connect_error){
   die('Connection failed: ' . $sql->connect_error);
 }
@@ -37,19 +38,36 @@ $sql->close();
 echo '<pre>';
 //print_r($data);
 
+// 경태88 민성44 호범104, 보람9
 
 // 지정된 사람들
 $team1 = [
-  $data[2] // 백승주
+  $data[2], // 백승주2,
+  $data[14], // 오수현14,
+  $data[15], // 최미사15,
+  $data[72], // 이성현72,
+  $data[44] // 민성44
+
 ];
 $team2 = [
-  $data[3] // 김소연
+  $data[3], // 김소연3,
+  $data[101], // 전상역101,
+  $data[29], // 하은혜29,
+  $data[18], // 강혜윤18,
+  $data[79] // 경태79
 ];
 $team3 = [
-  $data[7] // 권수현
+  $data[7], // 권수현7,
+  $data[102], // 남균102,
+  $data[11], // 엄주원11,
+  $data[40], // 신은총40,
+  $data[103] // 호범103
 ];
 $team4 = [
-  $data[29] // 송원철
+  $data[26], // 송원철26,
+  $data[8], // 가현8,
+  $data[31], // 태헌31,
+  $data[50] // 일신50
 ];
 
 

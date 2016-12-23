@@ -12,6 +12,12 @@ if(preg_match('#^/list/?$#', $_SERVER['REQUEST_URI'])){
   exit;
 }
 
+if(preg_match('#^/api/#', $_SERVER['REQUEST_URI'])){
+  $path = str_replace('/api/', '', $_SERVER['REQUEST_URI']) . '.php';
+  require __DIR__ . '/api/' . $path;
+  exit;
+}
+
 
 
 require(__DIR__.'/env.php');
