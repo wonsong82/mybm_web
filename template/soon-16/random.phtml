@@ -1,40 +1,4 @@
 <?php
-set_time_limit(0);
-
-//$sql = new MySqli('localhost', 'admin', '777');
-$sql = new MySqli('mybm.io', 'admin', '777');
-if($sql->connect_error){
-  die('Connection failed: ' . $sql->connect_error);
-}
-
-$sql->set_charset('utf8');
-$sql->select_db('mybm');
-date_default_timezone_set ('America/New_York');
-
-
-$result = $sql->query("SELECT * FROM soon_registration");
-$data=[];
-
-while($row = $result->fetch_assoc()){
-  $e = new StdClass();
-  $e->id = (int)$row['id'];
-  $e->name = $row['name'];
-  $e->age = (int)date('Y') - (int)('19'.$row['age']);
-  $e->gender = $row['gender'];
-  $e->address = $row['address'];
-  $e->register = (bool)$row['register'] ? '예' : '아니요';
-  $e->needride = (bool)$row['need_ride'] ? '예' : '아니요';
-  $e->participation = $row['participation'];
-  if(is_null($row['can_ride'])){
-    $e->canride = '';
-  } else {
-    $e->canride = (bool)$row['can_ride'] ? '예' : '아니요';
-  }
-  $data[] = $e;
-}
-
-$sql->close();
-
 echo '<pre>';
 //print_r($data);
 
@@ -375,9 +339,9 @@ function getAverageAge($team){
 <body>
 
 <?php $i=1; foreach( [$t1, $t2, $t3, $t4] as $team ): ?>
-<h2>Team<?=$i?></h2>
-<table width="100%" cellpadding="5" border="1" cellspacing="0">
-  <thead>
+  <h2>Team<?=$i?></h2>
+  <table width="100%" cellpadding="5" border="1" cellspacing="0">
+    <thead>
     <tr>
       <th width="13%" align="left" valign="top">이름</th>
       <th width="13%" align="left" valign="top">나이</th>
@@ -388,29 +352,25 @@ function getAverageAge($team){
       <th width="12%" align="left" valign="top">라이드가능</th>
       <th width="12" align="left" valign="top">참여도</th>
     </tr>
-  </thead>
+    </thead>
 
-  <tbody>
-  <?php foreach($team as $row):?>
-    <tr>
-      <td><?=$row->name?></td>
-      <td><?=$row->age?></td>
-      <td><?=$row->gender?></td>
-      <td><?=$row->address?></td>
-      <td><?=$row->register?></td>
-      <td><?=$row->needride?></td>
-      <td><?=$row->canride?></td>
-      <td><?=$row->participation?></td>
-    </tr>
-  <?php endforeach; ?>
-  </tbody>
-</table>
-<?php $i++; endforeach; ?>
+    <tbody>
+    <?php foreach($team as $row):?>
+      <tr>
+        <td><?=$row->name?></td>
+        <td><?=$row->age?></td>
+        <td><?=$row->gender?></td>
+        <td><?=$row->address?></td>
+        <td><?=$row->register?></td>
+        <td><?=$row->needride?></td>
+        <td><?=$row->canride?></td>
+        <td><?=$row->participation?></td>
+      </tr>
+    <?php endforeach; ?>
+    </tbody>
+  </table>
+  <?php $i++; endforeach; ?>
 
 
 </body>
 </html>
-
-
-
-

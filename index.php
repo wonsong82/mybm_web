@@ -1,81 +1,33 @@
 <?php
-if(preg_match('#^/list/?$#', $_SERVER['REQUEST_URI'])){
-  $download = false;
-  require(__DIR__.'/list.php');
-  exit;
-} elseif(preg_match('#^/download/?$#', $_SERVER['REQUEST_URI'])){
-  $download = true;
-  require(__DIR__.'/list.php');
-  exit;
-} elseif(preg_match('#^/random/?$#', $_SERVER['REQUEST_URI'])){
-  require(__DIR__.'/random.php');
-  exit;
+require( __DIR__ . '/env.php' );
+require( __DIR__ . '/init.php' );
+
+
+// Routes
+foreach( require( __DIR__ . '/routes.php' ) as $route => $controller ){
+
+  if(preg_match('#'.$route.'#', $_SERVER['REQUEST_URI'])){
+
+    $cont = explode(':', $controller);
+    $class = $cont[0];
+    $method = $cont[1];
+    $path = __DIR__ . '/controller/' . $class . '.php';
+
+    if(file_exists($path)){
+      require_once $path;
+
+      if(method_exists($class, $method)){
+        $stdClass = new $class();
+        $stdClass->$method();
+      }
+    }
+
+    $sql->close();
+    exit;
+  }
 }
 
-if(preg_match('#^/api/#', $_SERVER['REQUEST_URI'])){
-  $path = str_replace('/api/', '', $_SERVER['REQUEST_URI']) . '.php';
-  require __DIR__ . '/api/' . $path;
-  exit;
-}
-
-
-
-require(__DIR__.'/env.php');
-$appCss = (defined('DEBUG') && DEBUG) ?
-  'http://localhost:8080/app.css' :
-  '/static/app.css';
-
-$appJS = (defined('DEBUG') && DEBUG) ?
-  'http://localhost:8080/app.js' :
-  '/static/app.js';
-
-
-?>
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>My BM : Bridge Makers</title>
-
-  <link rel="stylesheet" type="text/css" href="<?php echo $appCss?>">
-
-  <!--
-  Favicons:
-     for iOS - Add to homescreen for iPhone and iPad
-     for Android Chrome - Add to Homescreen for android
-     for Windows 8 & 10 - Can pin site on desktop
-     for Sarafi - Pinned Tab
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
-  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-  <link rel="manifest" href="/manifest.json">
-  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-  <meta name="apple-mobile-web-app-title" content="YG Presents">
-  <meta name="application-name" content="YG Presents">
-  <meta name="theme-color" content="#ffffff">
-  <!-- End Favicons -->
-
-</head>
-<body>
-
-<div id="root">
-  <div class="page-loading">
-    <div class="page-loading__spinner">
-      <div class="SquareSpinner">
-        <span class="tl box"></span>
-        <span class="tr box"></span>
-        <span class="bl box"></span>
-        <span class="br box"></span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script src="<?php echo $appJS ?>"></script>
-
-
-</body>
-</html>
+// Default Route
+require_once __DIR__ . '/controller/App.php';
+$app = new App();
+$app->home();
