@@ -2,7 +2,6 @@
 require( __DIR__ . '/env.php' );
 require( __DIR__ . '/init.php' );
 
-
 // Routes
 foreach( require( __DIR__ . '/routes.php' ) as $route => $controller ){
 
@@ -26,6 +25,8 @@ foreach( require( __DIR__ . '/routes.php' ) as $route => $controller ){
     exit;
   }
 }
+
+
 
 // Default Route
 require_once __DIR__ . '/controller/App.php';
